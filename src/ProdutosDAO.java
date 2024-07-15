@@ -51,35 +51,35 @@ public class ProdutosDAO {
             }
         }
     }
-    
-    public void venderProduto(int idProduto) {
-    conn = new conectaDAO().connectDB();
-    try {
-        String sql = "UPDATE produtos SET status = 'Vendido' WHERE id = ?";
-        prep = conn.prepareStatement(sql);
-        prep.setInt(1, idProduto);
-        int rowsAffected = prep.executeUpdate();
 
-        if (rowsAffected > 0) {
-            JOptionPane.showMessageDialog(null, "Produto vendido com sucesso!");
-        } else {
-            JOptionPane.showMessageDialog(null, "Falha ao vender o produto.");
-        }
-    } catch (SQLException erro) {
-        JOptionPane.showMessageDialog(null, "Erro ao vender o produto: " + erro.getMessage());
-    } finally {
+    public void venderProduto(int idProduto) {
+        conn = new conectaDAO().connectDB();
         try {
-            if (prep != null) {
-                prep.close();
-            }
-            if (conn != null) {
-                conn.close();
+            String sql = "UPDATE produtos SET status = 'Vendido' WHERE id = ?";
+            prep = conn.prepareStatement(sql);
+            prep.setInt(1, idProduto);
+            int rowsAffected = prep.executeUpdate();
+
+            if (rowsAffected > 0) {
+                JOptionPane.showMessageDialog(null, "Produto vendido com sucesso!");
+            } else {
+                JOptionPane.showMessageDialog(null, "Falha ao vender o produto.");
             }
         } catch (SQLException erro) {
-            JOptionPane.showMessageDialog(null, "Erro ao fechar conexão: " + erro.getMessage());
+            JOptionPane.showMessageDialog(null, "Erro ao vender o produto: " + erro.getMessage());
+        } finally {
+            try {
+                if (prep != null) {
+                    prep.close();
+                }
+                if (conn != null) {
+                    conn.close();
+                }
+            } catch (SQLException erro) {
+                JOptionPane.showMessageDialog(null, "Erro ao fechar conexão: " + erro.getMessage());
+            }
         }
     }
-}
 
     public ArrayList<ProdutosDTO> listarProdutosVendidos() {
         ArrayList<ProdutosDTO> produtosVendidos = new ArrayList<>();
