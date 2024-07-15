@@ -139,10 +139,16 @@ public class listagemVIEW extends javax.swing.JFrame {
     private void btnVenderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVenderActionPerformed
         String id = id_produto_venda.getText();
 
-        ProdutosDAO produtosdao = new ProdutosDAO();
+        if (!id.isEmpty()) {
+            int idProduto = Integer.parseInt(id);
 
-        //produtosdao.venderProduto(Integer.parseInt(id));
-        listarProdutos();
+            ProdutosDAO produtosdao = new ProdutosDAO();
+            produtosdao.venderProduto(idProduto);
+
+            listarProdutos();
+        } else {
+            JOptionPane.showMessageDialog(null, "Por favor, informe o ID do produto a ser vendido.");
+        }
     }//GEN-LAST:event_btnVenderActionPerformed
 
     private void btnVendasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVendasActionPerformed
@@ -204,7 +210,7 @@ public class listagemVIEW extends javax.swing.JFrame {
 
     private void listarProdutos() {
         DefaultTableModel model = (DefaultTableModel) listaProdutos.getModel();
-        model.setRowCount(0); // Limpa a tabela antes de adicionar os novos dados
+        model.setRowCount(0);
 
         try {
             conectaDAO conexao = new conectaDAO();
